@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: StandUsersBridge/Dockerfile
     environment:
-      RabbitMQ__Publisher__HostName: localhost
+      RabbitMQ__Publisher__HostName: rabbitmq
       RabbitMQ__Publisher__UserName: user
       RabbitMQ__Publisher__Password: password
     networks:
