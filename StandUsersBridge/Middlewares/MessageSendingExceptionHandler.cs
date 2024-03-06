@@ -2,6 +2,7 @@
 
 using System.Net;
 using System.Text.Json;
+
 public class MessageSendingExceptionHandler(RequestDelegate next, ILogger<MessageSendingExceptionHandler> logger)
 {
     private readonly RequestDelegate _next = next;
