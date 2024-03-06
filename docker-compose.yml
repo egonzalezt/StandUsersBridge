@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  standusersbridge:
+    image: ${DOCKER_REGISTRY-}standusersbridge
+    build:
+      context: .
+      dockerfile: StandUsersBridge/Dockerfile
+    environment:
+      RabbitMQ__Publisher__HostName: localhost
+      RabbitMQ__Publisher__UserName: user
+      RabbitMQ__Publisher__Password: password
+    networks:
+        - standusers_bridge_network
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    volumes:
+        - ./rabbitmq/data/:/var/lib/rabbitmq/
+        - ./rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - standusers_bridge_network
+networks:
+  standusers_bridge_network:
+    driver: bridge
