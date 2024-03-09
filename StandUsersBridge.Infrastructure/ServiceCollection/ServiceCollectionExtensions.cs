@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
         var rabbitMqConfigurationFactory = new ConnectionFactory();
         configuration.GetSection("RabbitMQ:Publisher").Bind(rabbitMqConfigurationFactory);
         services.AddSingleton(rabbitMqConfigurationFactory);
-        services.Configure<StandUsersExchange>(configuration.GetSection("RabbitMQ:StandUsersExchange"));
+        services.Configure<StandUsersQueues>(configuration.GetSection("RabbitMQ:Queues"));
         services.AddSingleton<IMessageSender, RabbitMQMessageSender>();
 
         return services;

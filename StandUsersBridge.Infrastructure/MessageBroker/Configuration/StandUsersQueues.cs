@@ -1,6 +1,6 @@
 ﻿namespace StandUsersBridge.Infrastructure.MessageBroker.Configuration;
 
-public class StandUsersRoutingKeys
+public class StandUsersQueues
 {
-    public string Create { get; set; }
+    public string CreateUserQueue { get; set; }
 }

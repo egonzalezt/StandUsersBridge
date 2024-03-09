@@ -16,26 +16,27 @@ public class RabbitMQMessageSender : IMessageSender
         _logger = logger;
     }
 
-    public void SendMessage<T>(T message, string routingKey, string exchangeName, IDictionary<string, object>? headers = null)
+    public void SendMessage<T>(T message, string queueName, IDictionary<string, object>? headers = null)
     {
         using var connection = _connectionFactory.CreateConnection();
         using var channel = connection.CreateModel();
-        channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Topic);
-        var jsonMessage = JsonSerializer.Serialize(message);
-        var body = Encoding.UTF8.GetBytes(jsonMessage);
+
+        string serializedMessage = JsonSerializer.Serialize(message);
+        var body = Encoding.UTF8.GetBytes(serializedMessage);
         var properties = channel.CreateBasicProperties();
-        properties.Persistent = true;
-        properties.ContentType = "application/json";
-        if (headers != null)
+
+        if (headers is not null)
         {
             properties.Headers = headers;
         }
 
-        channel.BasicPublish(exchange: exchangeName,
-                             routingKey: routingKey,
+        channel.BasicPublish(exchange: "",
+                             routingKey: queueName,
                              basicProperties: properties,
                              body: body);
-        _logger.LogInformation($"Message send to '{exchangeName}' with routing key: '{routingKey}'");
+
+        _logger.LogInformation("Message sent to queue: {queueName}", queueName);
+
     }
 }
 

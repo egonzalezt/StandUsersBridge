@@ -13,9 +13,9 @@ using Infrastructure.MessageBroker.Publisher;
 public class UserController : ControllerBase
 {
     private readonly IMessageSender _messageSender;
-    private readonly StandUsersExchange _exchange;
+    private readonly StandUsersQueues _exchange;
 
-    public UserController(IMessageSender messageSender, IOptions<StandUsersExchange> exchangeOptions)
+    public UserController(IMessageSender messageSender, IOptions<StandUsersQueues> exchangeOptions)
     {
         _messageSender = messageSender;
         _exchange = exchangeOptions.Value;
@@ -25,7 +25,7 @@ public class UserController : ControllerBase
     public ActionResult Post([FromBody] UserDto user)
     {
         var headers = new Headers(EventTypes.CreateUser.ToString());
-        _messageSender.SendMessage(user, _exchange.StandUsersRoutingKeys.Create,_exchange.Name, headers.GetAttributesAsDictionary());
+        _messageSender.SendMessage(user, _exchange.CreateUserQueue, headers.GetAttributesAsDictionary());
         return Ok(user);
     }
 }
