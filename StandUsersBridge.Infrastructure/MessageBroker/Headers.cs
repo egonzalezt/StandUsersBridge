@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Headers(string messageType)
 {
     public Guid MessageId { get; set; } = Guid.NewGuid();
-    public string MessageType { get; set; } = messageType;
+    public string EventType { get; set; } = messageType;
     public string Timestamp { get; set; } = DateTimeOffset.UtcNow.ToString("o");
     public int Priority { get; set; } = 1;
 
