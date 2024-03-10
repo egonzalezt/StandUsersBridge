@@ -15,5 +15,5 @@ public class UserDto
     public string Email { get; set; }
 
     [Required]
-    public int IdentificationNumber { get; set; }
+    public long IdentificationNumber { get; set; }
 }
